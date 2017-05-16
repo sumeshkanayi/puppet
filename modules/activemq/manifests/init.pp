@@ -44,5 +44,19 @@
 #
 class activemq {
 
+  $packageList=["default-jdk","activemq"]
+  $packageList.each|$packageName|{
+
+  package { "$packageName":
+
+  ensure => present,
+
+  }
+
+
+  }
+
+
+
 
 }
