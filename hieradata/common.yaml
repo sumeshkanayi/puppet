@@ -1,4 +1,4 @@
 ---
 mcollective::policy_default: allow
 mcollective_choria::config:
-  security.certname_whitelist: "bob"
+  security.certname_whitelist: "bob, jill, /\.internal/"
