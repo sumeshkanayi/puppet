@@ -1,4 +1,5 @@
 ---
 mcollective::policy_default: allow
+#Without this certificates will be rejected looks for .mcolelctive by default
 mcollective_choria::config:
   security.certname_whitelist: "bob, jill, /.internal$/"
