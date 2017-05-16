@@ -69,7 +69,21 @@ source => 'http://archive.apache.org/dist/activemq/5.14.5/apache-activemq-5.14.5
   }
 
 
+file{ '/usr/share/activemq/lib/optional/activemq-stomp-5.14.5.jar':
 
+  ensure => present,
+  source => '/tmp/apache-activemq-5.14.5/lib/optional/activemq-stomp-5.14.5.jar'
+
+
+
+}
+
+  file {'/etc/activemq/instances-enable/main':
+
+    target => '/etc/activemq/instances-available/main',
+    ensure => link,
+
+  }
 
 
 
