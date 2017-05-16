@@ -1,4 +1,4 @@
-node 'ip-172-31-18-63.ap-southeast-1.compute.internal'{
+node 'ip-172-31-22-77.ap-southeast-1.compute.internal'{
 
   class { '::mcollective':
     middleware_hosts => [ 'ip-172-31-16-107' ],
