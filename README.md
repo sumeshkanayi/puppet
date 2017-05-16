@@ -34,6 +34,10 @@ puppet agent -t
 
 7)ssh to machine which is configured as mcollective client (Hiera/nodes)
 
+7) mco ping
+
+8)mco puppet status
+
 8)run
 
 mco puppet agent runall 5
