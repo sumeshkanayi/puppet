@@ -9,11 +9,10 @@ node 'ip-172-31-22-77.ap-southeast-1.compute.internal'{
 
 node 'ip-172-31-16-107.ap-southeast-1.compute.internal'{
 
-  class { 'activemq':
+ 
+  include mcollective
 
 
-
-  }
 }
 
 
