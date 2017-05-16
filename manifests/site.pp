@@ -4,7 +4,7 @@ node 'ip-172-31-22-77.ap-southeast-1.compute.internal'{
  
   include mcollective
   
-   file{ '/tmp/test.txt': {
+   file{ '/tmp/test.txt': 
  
  ensure => present,
  content => "Atlast"
@@ -18,7 +18,7 @@ node 'ip-172-31-22-77.ap-southeast-1.compute.internal'{
 node 'ip-172-31-18-164.ap-southeast-1.compute.internal' {
  include mcollective
  
- file{ '/tmp/test.txt': {
+ file{ '/tmp/test.txt': 
  
  ensure => present,
  content => "Atlast"
