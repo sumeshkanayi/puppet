@@ -86,6 +86,20 @@ file{ '/usr/share/activemq/lib/optional/activemq-stomp-5.14.5.jar':
   }
 
 
+  file { '/etc/activemq/instances-available/main/activemq.xml':
+
+    ensure => present,
+    source =>"puppet:///modules/activemq/activemq.xml"
+
+
+  }
+
+  service { 'activemq':
+
+    ensure => running,
+
+  }
+
 
 
 }
