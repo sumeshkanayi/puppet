@@ -1,0 +1,17 @@
+{
+  "README.md": "9016f8ec7a27fa4ebcffd5889aad85ee",
+  "data/defaults.yaml": "9de4ab38cc015be7994f2addd11251b7",
+  "data/plugin.yaml": "3edaf6a332f8d3578af8dfd39b50feed",
+  "files/mcollective/agent/service.ddl": "b25c2c3d5a861154832b8b3a4ecd6ced",
+  "files/mcollective/agent/service.rb": "cbf84ed615eeda9789650b05ec504566",
+  "files/mcollective/application/service.rb": "c95359f947af5f0d904fa3df80cb9820",
+  "files/mcollective/data/service_data.ddl": "e7f7e0bc65ede56fc636505a400b1700",
+  "files/mcollective/data/service_data.rb": "bc651898c7dcd373d609c933fbd6021f",
+  "files/mcollective/util/service/base.rb": "abea7b8fadbf3425a7b68b49b9435ff6",
+  "files/mcollective/util/service/puppetservice.rb": "905db93e1c06ad5a7154fa2f9199f31c",
+  "files/mcollective/validator/service_name.ddl": "2812afa15108103042f706c2201e286b",
+  "files/mcollective/validator/service_name.rb": "f13254874188192e15a43f7eb2f5f993",
+  "hiera.yaml": "3d31dfa7be184e008811f2ee66b361b3",
+  "manifests/init.pp": "1bd96dd7797ed1a6c30fca2fc34f5ac1",
+  "metadata.json": "36cf74a21b89a60cd701b0ab83a8580a"
+}

@@ -1,32 +1,22 @@
 {
-  "name": "puppet-mcollective",
-  "version": "2.5.0",
-  "author": "Vox Pupuli",
-  "summary": "Installs, configures, and manages MCollective agents, clients, and middleware of an MCollective cluster.",
+  "name": "choria-mcollective",
+  "version": "0.0.26",
+  "author": "R.I.Pienaar <rip@devco.net>",
+  "summary": "Configure the Puppet AIO MCollective",
   "license": "Apache-2.0",
-  "source": "https://github.com/voxpupuli/puppet-mcollective.git",
-  "project_page": "https://github.com/voxpupuli/puppet-mcollective",
-  "issues_url": "https://github.com/voxpupuli/puppet-mcollective/issues",
+  "source": "https://github.com/choria-io/puppet-mcollective",
+  "project_page": "https://github.com/choria-io/puppet-mcollective",
+  "issues_url": "https://github.com/choria-io/puppet-mcollective/issues",
   "dependencies": [
-    {"name":"richardc/datacat","version_requirement":">= 0.6.2 < 1.0.0"},
-    {"name":"puppetlabs/stdlib","version_requirement":">=4.6.0 < 5.0.0"}
+    {"name":"puppetlabs/stdlib","version_requirement":">= 4.12.0 < 5.0.0"},
+    {"name":"puppetlabs/inifile","version_requirement":">= 1.5.0 < 2.0.0"}
   ],
-  "data_provider": null,
-  "tags": [
-    "voxpupuli",
-    "mcollective"
-  ],
-  "requirements": [
-    {
-      "name": "puppet",
-      "version_requirement": ">= 3.8.7 < 5.0.0"
-    }
-  ],
-  "description": "MCollective Puppet Module",
+  "data_provider": "hiera",
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
+        "4",
         "5",
         "6",
         "7"
@@ -35,6 +25,7 @@
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
+        "4",
         "5",
         "6",
         "7"
@@ -43,6 +34,7 @@
     {
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
+        "4",
         "5",
         "6",
         "7"
@@ -51,6 +43,7 @@
     {
       "operatingsystem": "Scientific",
       "operatingsystemrelease": [
+        "4",
         "5",
         "6",
         "7"
@@ -59,7 +52,9 @@
     {
       "operatingsystem": "SLES",
       "operatingsystemrelease": [
-        "11 SP1"
+        "10 SP4",
+        "11 SP1",
+        "12"
       ]
     },
     {
@@ -73,10 +68,45 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
+        "10.04",
         "12.04",
-        "14.04",
-        "16.04"
+        "14.04"
       ]
+    },
+    {
+      "operatingsystem": "Solaris",
+      "operatingsystemrelease": [
+        "10",
+        "11",
+        "12"
+      ]
+    },
+    {
+      "operatingsystem": "Windows",
+      "operatingsystemrelease": [
+        "Server 2003",
+        "Server 2003 R2",
+        "Server 2008",
+        "Server 2008 R2",
+        "Server 2012",
+        "Server 2012 R2",
+        "7",
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "AIX",
+      "operatingsystemrelease": [
+        "5.3",
+        "6.1",
+        "7.1"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.5.0"
     }
   ]
 }

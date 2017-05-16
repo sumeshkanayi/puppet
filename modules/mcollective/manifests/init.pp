@@ -1,136 +1,67 @@
-# Class - mcollective
+# Manage AIO based Marionette Collective
+#
+# @param plugintypes The list of plugin directories to create under libdir
+# @param plugin_classes The list of plugins to install via classes
+# @param plugin_classes_exclude A list of plugins not to install
+# @param server_config A hash of config items to set in the server.cfg
+# @param client_config A hash of config items to set in the client.cfg
+# @param common_config A hash of config items to set in both client.cfg and server.cfg
+# @param libdir The directory where plugins will go in
+# @param configdir Root directory to config files
+# @param facts_refresh_interval Minutes between fact refreshes, set to 0 to disable cron based refreshes
+# @param rubypath Path to the ruby executable
+# @param collectives A list of collectives the node belongs to
+# @param client_collectives A list of collectives the client has access to, defaults to the same as the node
+# @param main_collective The main collective to use, last in the list of `$collectives` by default
+# @param client_main_collective The main collective to use on the client, `$main_collective` by default
+# @param facts_pidfile PID file path for locking fact refresh to a single execution
+# @param plugin_owner The default user who will own plugin files
+# @param plugin_group The default group who will own plugin files
+# @param plugin_mode The default mode plugin files will have
+# @param policy_default When managing plugin policies this will be the default allow/deny
+# @param site_policies Policies to apply to all agents after any module specific policies
+# @param rpcutil_policies Policies to apply to the special rpcutil agent
+# @param service_ensure Ensure value for the service
+# @param service_name The mcollective service name to notify and manage
+# @param service_enable The enable value for the service
+# @param client Install client files on this node
+# @param server Install server files on this node
+# @param purge When true will remove unmanaged files from the $configdir/plugin.d, $configdir/policies and $libdir
 class mcollective (
-  # which subcomponents to install here
-  $server = true,
-  $client = false,
+  Array[String] $plugintypes,
+  Array[String] $plugin_classes,
+  Array[String] $plugin_classes_exclude = [],
+  Hash $server_config = {},
+  Hash $client_config = {},
+  Hash $common_config = {},
+  String $libdir,
+  String $configdir,
+  String $rubypath,
+  Integer $facts_refresh_interval,
+  Array[Mcollective::Collective] $collectives,
+  Array[Mcollective::Collective] $client_collectives = $collectives,
+  Optional[Mcollective::Collective] $main_collective = undef,
+  Optional[Mcollective::Collective] $client_main_collective = undef,
+  Optional[String] $facts_pidfile,
+  Optional[String] $plugin_owner,
+  Optional[String] $plugin_group,
+  Optional[String] $plugin_mode,
+  Mcollective::Policy_action $policy_default,
+  Array[Mcollective::Policy] $site_policies = [],
+  Array[Mcollective::Policy] $rpcutil_policies = [],
+  Enum["stopped", "running"] $service_ensure,
+  String $service_name,
+  Boolean $service_enable,
+  Boolean $client,
+  Boolean $server,
+  Boolean $purge
+) {
+  $factspath = "${configdir}/generated-facts.yaml"
 
-  # installing packages
-  $manage_packages        = true,
-  $version                = 'present',
-  $ruby_stomp_ensure      = 'installed',
-  $sshkeyauth_gem_version = 'present',
+  include mcollective::plugin_dirs
+  include mcollective::config
+  include mcollective::facts
+  include mcollective::service
 
-  # core configuration
-  $confdir          = $mcollective::defaults::confdir,
-  $main_collective  = 'mcollective',
-  $collectives      = 'mcollective',
-  $connector        = 'activemq',
-  $securityprovider = 'psk',
-  $psk              = 'changemeplease',
-  $factsource       = 'yaml',
-  $yaml_fact_path   = undef,
-  $yaml_fact_cron   = true,
-  $fact_cron_splay  = false,
-  $classesfile      = '/var/lib/puppet/state/classes.txt',
-  $rpcauthprovider  = 'action_policy',
-  $rpcauditprovider = 'logfile',
-  $rpcauditlogfile  = '/var/log/mcollective-audit.log',
-  $registration     = undef,
-  $core_libdir      = $mcollective::defaults::core_libdir,
-  $site_libdir      = $mcollective::defaults::site_libdir,
-  $identity         = $fqdn,
-
-  # networking
-  $middleware_hosts          = [],
-  $middleware_user           = 'mcollective',
-  $middleware_password       = 'marionette',
-  $middleware_port           = '61613',
-  $middleware_ssl_port       = '61614',
-  $middleware_ssl            = false,
-  $middleware_ssl_fallback   = false,
-  $middleware_ssl_cert       = undef,
-  $middleware_ssl_key        = undef,
-  $middleware_ssl_ca         = undef,
-  $middleware_admin_user     = 'admin',
-  $middleware_admin_password = 'secret',
-  $middleware_heartbeat_interval = '30',
-
-  # middleware connector tweaking
-  $rabbitmq_vhost = '/mcollective',
-
-  # common
-  $common_package = 'mcollective-common',
-
-  # server-specific
-  $server_config_file = undef, # default dependent on $confdir
-  $server_logfile     = '/var/log/mcollective.log',
-  $server_loglevel    = 'info',
-  $server_daemonize   = $mcollective::defaults::server_daemonize,
-  $service_name       = 'mcollective',
-  $service_ensure     = 'running',
-  $service_enable     = true,
-  $server_package     = 'mcollective',
-  $ruby_stomp_package = 'ruby-stomp',
-  $ruby_interpreter   = $mcollective::defaults::ruby_interpreter,
-
-  # client-specific
-  $client_config_file  = undef, # default dependent on $confdir
-  $client_logger_type  = 'console',
-  $client_loglevel     = 'warn',
-  $client_package      = 'mcollective-client',
-
-  # ssl certs
-  $ssl_ca_cert          = undef,
-  $ssl_server_public    = undef,
-  $ssl_server_private   = undef,
-  $ssl_client_certs     = 'puppet:///modules/mcollective/empty',
-  $ssl_client_certs_dir = undef, # default dependent on $confdir
-
-  # ssl ciphers
-  $ssl_ciphers = undef,
-
-  # Action policy settings
-  $allowunconfigured    = '1',
-
-  # Sshkey security provider settings
-  # Module defaults: https://github.com/puppetlabs/mcollective-sshkey-security/blob/master/security/sshkey.rb
-  $sshkey_server_learn_public_keys      = false,
-  $sshkey_server_overwrite_stored_keys  = false,
-  $sshkey_server_publickey_dir          = undef, #overwritten below
-  $sshkey_server_private_key            = '/etc/ssh/ssh_host_rsa_key',
-  $sshkey_server_authorized_keys        = undef,
-  $sshkey_server_send_key               = undef,
-) inherits mcollective::defaults {
-
-  # Because the correct default value for several parameters is based on another
-  # configurable parameter, it cannot be set in the parameter defaults above and
-  # _real variables must be set here.
-  $yaml_fact_path_real = pick_default($yaml_fact_path, "${confdir}/facts.yaml")
-  $server_config_file_real = pick_default($server_config_file, "${confdir}/server.cfg")
-  $client_config_file_real = pick_default($client_config_file, "${confdir}/client.cfg")
-
-  $ssldir = "${confdir}/ssl"
-
-  $ssl_client_certs_dir_real = pick_default($ssl_client_certs_dir, "${ssldir}/clients")
-  $ssl_server_public_path    = "${ssldir}/server_public.pem"
-  $ssl_server_private_path   = "${ssldir}/server_private.pem"
-
-  $middleware_ssl_ca_real   = pick_default($middleware_ssl_ca, $ssl_ca_cert)
-  $middleware_ssl_cert_real = pick_default($middleware_ssl_cert, $ssl_server_public)
-  $middleware_ssl_key_real  = pick_default($middleware_ssl_key, $ssl_server_private)
-
-  $middleware_ssl_key_path  = "${ssldir}/middleware_key.pem"
-  $middleware_ssl_cert_path = "${ssldir}/middleware_cert.pem"
-  $middleware_ssl_ca_path   = "${ssldir}/middleware_ca.pem"
-
-  if $securityprovider == 'sshkey' {
-    package{'sshkeyauth':
-      ensure   =>  $sshkeyauth_gem_version,
-      provider =>  'puppet_gem',
-    }
-  }
-
-  if $sshkey_server_learn_public_keys {
-    $sshkey_server_publickey_dir_real = pick($sshkey_server_publickey_dir,"${confdir}/sshkey_pubkeys")
-  }
-
-  if $client or $server {
-    contain ::mcollective::common
-  }
-  if $client {
-    contain ::mcollective::client
-  }
-  if $server {
-    contain ::mcollective::server
-  }
+  include $plugin_classes - $plugin_classes_exclude
 }
