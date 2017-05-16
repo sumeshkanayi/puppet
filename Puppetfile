@@ -1,0 +1,1 @@
+mod 'puppet-mcollective', '2.5.0'
