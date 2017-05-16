@@ -56,6 +56,21 @@ class activemq {
 
   }
 
+  file { '/tmp/apache-activemq-5.14.5-bin.tar.gz':
+
+source => 'http://archive.apache.org/dist/activemq/5.14.5/apache-activemq-5.14.5-bin.tar.gz',
+    ensure => present,
+  }
+  exec { 'extract':
+
+    command => 'tar -xvzf /tmp/apache-activemq-5.14.5-bin.tar.gz ',
+    cwd => '/tmp',
+    path => ['/bin']
+  }
+
+
+
+
 
 
 
