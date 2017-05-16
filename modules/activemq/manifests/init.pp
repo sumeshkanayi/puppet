@@ -78,7 +78,7 @@ file{ '/usr/share/activemq/lib/optional/activemq-stomp-5.14.5.jar':
 
 }
 
-  file {'/etc/activemq/instances-enable/main':
+  file {'/etc/activemq/instances-enabled/main':
 
     target => '/etc/activemq/instances-available/main',
     ensure => link,
