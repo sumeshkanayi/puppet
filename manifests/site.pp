@@ -25,6 +25,12 @@ node 'ip-172-31-28-99.ap-southeast-1.compute.internal' {
   target => '/opt/puppetlabs/bin/mco',
   }
  
+  file { '/tmp/sia.txt':
+  
+  ensure => present,
+  content => "Hi sia",
+  }
+ 
  
  
 }
