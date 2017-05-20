@@ -28,6 +28,8 @@ eg: git remote add origin 'https://github.com/sumeshkanayi/puppet.git'
 
 git pull origin master
 
+puppet module install choria-mcollective_choria --version 0.0.26
+
 6) run below command on all puppet agents (including server)
 
 puppet agent -t
