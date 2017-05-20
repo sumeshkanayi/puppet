@@ -1,6 +1,6 @@
 
 #client only node
-node 'ip-172-31-18-180.ap-southeast-1.compute.internal'{
+node 'ip-172-31-31-76.ap-southeast-1.compute.internal'{
 
  
   include mcollective
@@ -17,7 +17,7 @@ node 'ip-172-31-18-180.ap-southeast-1.compute.internal'{
 
 
 #server (All other nodes other than clients"
-node 'ip-172-31-26-155.ap-southeast-1.compute.internal' {
+node 'ip-172-31-28-99.ap-southeast-1.compute.internal' {
  include mcollective
  file { '/usr/local/bin/mco':
   
@@ -31,7 +31,7 @@ node 'ip-172-31-26-155.ap-southeast-1.compute.internal' {
 
 #puppet server
 
-node "ip-172-31-18-86.ap-southeast-1.compute.internal" {
+node "ip-172-31-23-193.ap-southeast-1.compute.internal" {
   class{"nats": }
   file { '/usr/local/bin/mco':
   
