@@ -5,6 +5,12 @@ node 'ip-172-31-18-180.ap-southeast-1.compute.internal'{
  
   include mcollective
   
+  file { '/usr/local/bin/mco':
+  
+  ensure => link,
+  target => '/opt/puppetlabs/bin/mco',
+  }
+  
 
 
 }
